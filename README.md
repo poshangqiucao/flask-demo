@@ -2,6 +2,12 @@
 
 综合使用html,css,javascript对网站功能界面进行改进，同时学习使用python的Flask Web框架进行网站开发。
 
+## 开发工具
+
+* VS Code
+* Git
+* Python 3.8
+  
 ## 使用方式
 
 1. 安装Flask依赖
