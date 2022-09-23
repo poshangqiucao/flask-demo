@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>我的小站</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.js" async defer></script>
+        <script src="{{ url_for('static', filename='js/index.js') }}" async defer></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div id="container">
+            <div id="banner">
+                <h1>我的小站</h1>
+            </div>
+            <div id="content">
+                <ul>
+                    {% for item in names %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+                <div id="box-img" class="animate__animated animate__bounce">
+                    <img onclick="hello()" id="my" src="{{ url_for('static', filename='img/my.jpg')}}" alt="my">
+                </div>
+                <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="file" />
+                    <input type="submit" value="提交" />
+                </form>
+                <a href="{{ url_for('hello') }}">hello world</a>
+                <br>
+                <button onclick="getData()">发送异步请求</button>
+                <p class="result">暂无数据</p>
+                <br>
+                <button onclick="setJSON()">发送json数据</button>
+                <p class="jsonData">暂无数据</p>
+                <p>页面访问次数:{{ count }}次</p>
+            </div>
+        </div>  
+        
+        {{ name }}
+    </body>
+</html>
