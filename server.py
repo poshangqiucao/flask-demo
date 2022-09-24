@@ -1,7 +1,7 @@
 import os
 import time
 import json
-from flask import Flask,url_for,render_template,request,make_response
+from flask import Flask,url_for,render_template,request,make_response, redirect
 from markupsafe import escape
 from werkzeug.utils import secure_filename
 
@@ -58,6 +58,12 @@ def upload():
     f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
     return render_template("index.html", name=name, names=names)
 
+@app.route("/login", methods=['POST'])
+def login():
+    username = request.form.get("username")
+    passwd = request.form.get("passwd")
+    print(username, passwd)
+    return redirect("/")
 
 if __name__ == "__main__":
     # 模板更改后立即生效
