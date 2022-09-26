@@ -1,6 +1,7 @@
 import os
 import time
 import json
+import random
 from flask import Flask,url_for,render_template,request,make_response, redirect
 from markupsafe import escape
 from werkzeug.utils import secure_filename
@@ -20,9 +21,12 @@ def index(name=None):
     print(key)
     res = make_response(render_template("index.html", name=name, names=names, count = count))
     visit_time = request.cookies.get('visit_time')
+    res.set_etag("hello")
+    # 向响应报文中增加响应头字段
+    res.headers['token'] = random.randint(1, 100)
+    res.headers.add("token2", random.randint(1, 100))
     if not visit_time:
         res.set_cookie("visit_time", str(time.time()))
-        res.headers.add_header("my-id", count)
     return res
 
 @app.route("/hello")
