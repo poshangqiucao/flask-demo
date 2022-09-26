@@ -21,8 +21,8 @@ def index(name=None):
     print(key)
     res = make_response(render_template("index.html", name=name, names=names, count = count))
     visit_time = request.cookies.get('visit_time')
-    res.set_etag("hello")
-    # 向响应报文中增加响应头字段
+    # res.set_etag("hello")
+    # 向响应报文中增加头字段
     res.headers['token'] = random.randint(1, 100)
     res.headers.add("token2", random.randint(1, 100))
     if not visit_time:
@@ -68,6 +68,17 @@ def login():
     passwd = request.form.get("passwd")
     print(username, passwd)
     return redirect("/")
+
+
+@app.route("/login2", methods = ['POST'])
+def login2():
+    d = request.get_data()
+    data = json.loads(d.decode('utf-8'))
+    print(data)
+    return {
+        "status": "success",
+        "data": data
+    }
 
 if __name__ == "__main__":
     # 模板更改后立即生效

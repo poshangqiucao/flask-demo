@@ -15,7 +15,7 @@ getName();
 // }, 1000);
 console.log(this)
 
-console.log($)
+// console.log($)
 
 function getData() {
     console.log($);
@@ -33,5 +33,18 @@ function setJSON() {
     $.post("/getJSON",JSON.stringify(obj), function(res) {
         console.log(res);
         $('.jsonData').text(JSON.stringify(res));
+    })
+}
+
+function submitFormRequest() {
+    const username = document.getElementById("username1").value;
+    const password = document.getElementById("password1").value;
+    if(username === '' || password === '') {
+        alert("请填写完整用户名或密码");
+        return;
+    }
+    console.log(username, password);
+    $.post("/login2",JSON.stringify({ username, passwd: password }), function(res) {
+        console.log(res);
     })
 }
