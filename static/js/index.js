@@ -46,5 +46,7 @@ function submitFormRequest() {
     console.log(username, password);
     $.post("/login2",JSON.stringify({ username, passwd: password }), function(res) {
         console.log(res);
+        document.getElementById("username1").value = '';
+        document.getElementById("password1").value = '';
     })
 }

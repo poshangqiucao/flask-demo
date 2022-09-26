@@ -5,11 +5,24 @@ import random
 from flask import Flask,url_for,render_template,request,make_response, redirect
 from markupsafe import escape
 from werkzeug.utils import secure_filename
+from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy()
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'upload/'
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+db.init_app(app)
 count = 0
 
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, unique=False, nullable=False)
+    password = db.Column(db.String, unique=False, nullable=False)
+    email = db.Column(db.String)
+
+with app.app_context():
+    db.create_all()
+    
 @app.route("/")
 def index(name=None):
     global count
@@ -74,11 +87,22 @@ def login():
 def login2():
     d = request.get_data()
     data = json.loads(d.decode('utf-8'))
+    user = User(
+        username = data['username'],
+        password = data['passwd']
+    )
+    db.session.add(user)
+    db.session.commit()
     print(data)
     return {
         "status": "success",
         "data": data
     }
+    
+@app.route("/users", methods = ['GET'])
+def list_users():
+    users = db.session.execute(db.select(User).order_by(User.username)).scalars()
+    return render_template("list.html", users=users)
 
 if __name__ == "__main__":
     # 模板更改后立即生效
